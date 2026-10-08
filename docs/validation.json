@@ -1,0 +1,15 @@
+{
+  "status": "synthetic smoke only; no historical EKaS simulation",
+  "fixed_min_thickness_m": 456.08966221976937,
+  "advancing_min_thickness_m": 455.806647711059,
+  "fixed_max_relative_mass_residual": 1.3261309230659791e-16,
+  "advancing_max_relative_mass_residual": 1.1545786896178437e-16,
+  "front_final_m": 7.178233358739817,
+  "gate_thickness_advancing_minus_fixed_m": 0.06040862284925197,
+  "gate_speed_advancing_minus_fixed_myr": -13.699903200078552,
+  "chronological_equal_start_check": "passed",
+  "unit_tests": "2 passed",
+  "template_status": "OOI-Image unavailable; exact AGENTS/style copy pending",
+  "firedrake_geometry_checks": "passed: CG1 interpolation, volume-preserving transfer, mixed-law derivative",
+  "notebook": "executed with saved figure outputs"
+}

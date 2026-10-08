@@ -1,0 +1,16 @@
+name: icepack-sediment-analysis
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - numpy
+  - scipy
+  - matplotlib
+  - xarray
+  - netcdf4
+  - rasterio
+  - pyproj
+  - jupyterlab
+  - nbformat
+  - pytest
+# This installs preprocessing/plotting dependencies only, not Firedrake.
+# Install Firedrake/PETSc separately following the official instructions.
