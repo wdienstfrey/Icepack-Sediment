@@ -1,0 +1,13 @@
+{
+  "length_1953_m": 30000,
+  "width_m": 3000,
+  "nx": 120,
+  "ny": 12,
+  "dt_years": 0.05,
+  "spinup_years": 25,
+  "end_year": 2021,
+  "fluidity": 10,
+  "mu": 0.5,
+  "side_friction": 0.01,
+  "smooth_front": true
+}
