@@ -13,7 +13,7 @@ and limitations. Regional inputs and the corridor domain still need preparation;
 `AGENTS.md` and `brad-lipovsky-academic-style-guide.md`. It has no standalone
 plotting style file; `src/plotting.py` reuses the exact rcParams block from its
 `nlayer-sensitivity/energy-likelihood/scripts/analyze.py`, with 220 dpi exports.
-The repository is public; all changes remain on the feature branch in PR #1.
+The repository is public; these updates are submitted from the feature branch for review.
 
 The paper initializes from 2021 geometry and velocity, inverts A and slipperiness,
 relaxes for two years and re-inverts. It then truncates to the 1953 front, relaxes
