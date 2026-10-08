@@ -1,15 +1,19 @@
 # Icepack-Sediment
 
-Can prescribed terminus advance over a shallowing bed slow and thicken Eqalorutsit
-Kangilliit Sermiat? This minimal UW Icepack/Firedrake SSA experiment implements
+Prescribed terminus advance changes glacier geometry and frontal stress.
+This minimal UW Icepack/Firedrake SSA experiment tests the resulting slowdown
+and thickening of Eqalorutsit Kangilliit Sermiat and implements
 the comparison in [Dachauer et al. (2026), Figure 13](https://doi.org/10.1017/jog.2026.10172).
 Sediment evolution is the next step, after the geometric response is established.
 
 **Status:** implementation and synthetic solver checks; no calibrated historical
-EKaS reproduction or agreement claim. See `docs/results.pdf` for validation
-and limitations. Exact regional inputs still need preparation; see [data/README.md](data/README.md).
-The requested `OOI-Image` template could not be located; its AGENTS.md and
-plotting style must be supplied before the template requirement can be completed.
+EKaS reproduction or agreement claim. See [docs/results.pdf](docs/results.pdf) for validation
+and limitations. Regional inputs and the corridor domain still need preparation; see [data/README.md](data/README.md).
+[OMP-OOI](https://github.com/wdienstfrey/OMP-OOI) supplies the byte-identical
+`AGENTS.md` and `brad-lipovsky-academic-style-guide.md`. It has no standalone
+plotting style file; `src/plotting.py` reuses the exact rcParams block from its
+`nlayer-sensitivity/energy-likelihood/scripts/analyze.py`, with 220 dpi exports.
+The repository is public; all changes remain on the feature branch in PR #1.
 
 The paper initializes from 2021 geometry and velocity, inverts A and slipperiness,
 relaxes for two years and re-inverts. It then truncates to the 1953 front, relaxes
@@ -21,7 +25,7 @@ relaxation clock, not a reconstruction of 1928–1953 climate.
 `src/model.py` solves `IceStream` stress balance and ice continuity. Units are
 meters, years and megapascals. Glen n=3, prescribed A and the prepared basal
 friction field are fixed. The mixed Coulomb–Weertman law approximates Ua A.2
-through a quadrature dissipation potential. Effective pressure is ice overburden
+through a 16-point quadrature dissipation potential (m=3). Effective pressure is ice overburden
 minus ocean-connected hydrostatic pressure at the ice base, bounded at zero;
 floating ice therefore has zero basal drag. Icepack supplies the grounded/floating
 surface and ocean traction. The fixed MAR 2021 annual SMB is identical in both
@@ -97,3 +101,40 @@ and ocean-contact boundary, with mass conservation and independently constrained
 sediment parameters, after establishing the geometric control experiment.
 
 Rebuild the report with `cd docs` and `pdflatex results.tex` (twice for links).
+
+Additional checks use cached regional geometry without claiming a reconstruction:
+
+```bash
+python scripts/check_regional_geometry.py /path/to/BedMachineGreenland-v6.nc /path/to/ekas_flowline_shiver_2023.csv
+```
+
+This probes a candidate straight corridor against the ice mask. The modern
+flowline and approximate historical offset do not define a surveyed 1953 front.
+The tested candidate includes land with zero ice thickness, so it is unsuitable
+for the present solver. A curved ice-conforming mesh or a verified narrower
+trunk domain is needed before interpreting regional simulations. See the report
+for extended synthetic runs, timestep failures and data limitations. Partial
+histories and failure details are saved when a transient aborts.
+
+To reproduce the extended synthetic stability checks, first generate the synthetic
+inputs, then run each case with `--inputs data/processed/synthetic.npz` and
+`--config configs/synthetic_coarse.json` or `configs/synthetic_refined.json`.
+Use distinct `--output` directories. Both configurations retain the 25-year
+spinup and 1953–2021 chronology; only the timestep differs (1 versus 0.25 year).
+These experiments assess the numerical implementation and remain separate from
+the historical EKaS comparison.
+
+The default spatial quadrature degree is 2, matching Icepack for the CG1 spaces,
+and can be changed through the model hook.
+An experimental analytic-potential comparison at degrees 12 and 24 agreed
+to about 5e-13 in short-run gate speed and flux. It was not adopted in production
+because a runtime improvement was not established. This is not a mesh or
+timestep convergence study. Traction
+checks cover 16 pressure/speed combinations, including zero effective pressure.
+The one-year timestep test fails despite closing mass budgets: continuous CG1
+transport and the split stress/continuity update do not guarantee positive
+thickness. No minimum-thickness constraint is used to hide that failure.
+
+The retained full-duration synthetic pair passed: advancing-minus-control gate
+thickness +67.83 m, speed −515.54 m/year and flux −0.18842 Gt/year in 2021.
+Both remained positive over all 93 model years; this does not validate regional EKaS magnitudes.

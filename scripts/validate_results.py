@@ -18,6 +18,7 @@ parser.add_argument("--allow-short",action="store_true")
 args = parser.parse_args()
 paths = [Path(args.fixed),Path(args.advancing)]
 meta = [json.loads((p/"metadata.json").read_text()) for p in paths]
+assert all(m["status"]=="executed" for m in meta),"Simulations are not complete"
 assert meta[0]["initial_hash"]==meta[1]["initial_hash"],"Initial states differ"
 assert meta[0]["input_sha256"]==meta[1]["input_sha256"]
 assert meta[0]["config"]==meta[1]["config"],"Configurations differ"
