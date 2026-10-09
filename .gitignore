@@ -12,3 +12,4 @@ results/**/*.json
 *.log
 *.out
 results/smoke*/
+results/regional_geometry/

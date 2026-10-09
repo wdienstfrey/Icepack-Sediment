@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/wdienstfrey/OMP-OOI",
+  "source_commit": "a140f2b2d51678902529fda4ed707b096aacbe2f",
+  "copied_files": {
+    "AGENTS.md": "f0d220a68760daf24c41da082176a107061b0ea33eada5f3b19e0eb5d6c3c837",
+    "brad-lipovsky-academic-style-guide.md": "9856e89591c25dcdc00dda251678912fcea2fba58615ce3f5c19c76d3c5944dd"
+  },
+  "plotting_source": "nlayer-sensitivity/energy-likelihood/scripts/analyze.py:103",
+  "plotting_note": "No standalone plotting style file exists in OMP-OOI. Exact rcParams block and 220 dpi PNG setting reused; PDF font embedding added."
+}

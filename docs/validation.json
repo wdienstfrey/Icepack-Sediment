@@ -1,15 +1,15 @@
 {
-  "status": "synthetic smoke only; no historical EKaS simulation",
-  "fixed_min_thickness_m": 456.08966221976937,
-  "advancing_min_thickness_m": 455.806647711059,
-  "fixed_max_relative_mass_residual": 1.3261309230659791e-16,
-  "advancing_max_relative_mass_residual": 1.1545786896178437e-16,
-  "front_final_m": 7.178233358739817,
-  "gate_thickness_advancing_minus_fixed_m": 0.06040862284925197,
-  "gate_speed_advancing_minus_fixed_myr": -13.699903200078552,
-  "chronological_equal_start_check": "passed",
-  "unit_tests": "2 passed",
-  "template_status": "OOI-Image unavailable; exact AGENTS/style copy pending",
-  "firedrake_geometry_checks": "passed: CG1 interpolation, volume-preserving transfer, mixed-law derivative",
-  "notebook": "executed with saved figure outputs"
+  "status": "Full-duration synthetic validation passed; historical EKaS not executed",
+  "date": "2026-10-08",
+  "unit_tests": "5 passed",
+  "firedrake_geometry_checks": "CG1 sampling, conservative transfer and 16 pressure/speed derivative checks passed",
+  "paired_full_run_checks": "same start and spinup; fixed/control front; chronology; positivity; mass budget; slowdown and thickening passed",
+  "synthetic_results": {
+    "last_gate_h_m": 67.8334608779694,
+    "last_gate_speed_myr": -515.540174678576,
+    "last_gate_flux_Gtyr": -0.1884222349510276
+  },
+  "template_status": "Exact AGENTS.md and academic guide copied; OMP-OOI rcParams block reused",
+  "regional_status": "Missing prepared ekas.npz; candidate straight corridor unsuitable",
+  "notebook": "executed, outputs retained"
 }

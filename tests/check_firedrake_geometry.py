@@ -20,11 +20,18 @@ transferred.dat.data[:]=h.dat.data_ro*30000/30100
 np.testing.assert_allclose(float(fd.assemble(transferred*fd.dx)),volume,rtol=1e-12)
 mesh=fd.UnitSquareMesh(1,1)
 Q=fd.FunctionSpace(mesh,"CG",1);V=fd.VectorFunctionSpace(mesh,"CG",1)
-u=fd.Function(V).assign(fd.Constant((1000,0)));direction=fd.Function(V).assign(fd.Constant((1,0)))
-h=fd.Function(Q).assign(400);s=fd.Function(Q).assign(100)
+u=fd.Function(V);direction=fd.Function(V).assign(fd.Constant((1,0)))
+h=fd.Function(Q);s=fd.Function(Q)
 k=fd.Function(Q).assign(.01)
 action=potential(velocity=u,thickness=h,surface=s,friction=k)*fd.dx
-stress=float(fd.assemble(fd.derivative(action,u,direction)))
-pressure=(ice_density*400-water_density*300)*gravity
-np.testing.assert_allclose(stress,traction(1000,pressure,.01),rtol=1e-6)
+stress_form=fd.derivative(action,u,direction)
+for pressure in [0,5e-5,0.585,5.]:
+    height=(pressure/gravity+water_density*300)/ice_density
+    h.assign(height);s.assign(height-300)
+    for speed in [.01,1,1000,1e6]:
+        u.assign(fd.Constant((speed,0)))
+        stress=float(fd.assemble(stress_form))
+        regularized=np.sqrt(speed**2+1e-6)
+        expected=traction(regularized,pressure,.01)*speed/regularized
+        np.testing.assert_allclose(stress,expected,rtol=1e-6,atol=1e-10)
 print("CG1 interpolation, volume-preserving transfer and mixed-law derivative passed.")

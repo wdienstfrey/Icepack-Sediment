@@ -1,4 +1,4 @@
-"""Figure 13 gate curves and common-domain maps; pending OOI-Image style copy."""
+"""Figure 13 gate curves and common-domain maps using OMP-OOI figure settings."""
 from pathlib import Path
 import json
 import numpy as np
@@ -7,15 +7,17 @@ from .terminus import chronology, front, advance_rate
 
 
 def style():
-    # Provisional only. Replace with the exact OOI-Image style once located.
-    plt.rcParams.update({"font.size":9,"axes.spines.top":False,"axes.spines.right":False,
-                         "savefig.dpi":300,"pdf.fonttype":42,"ps.fonttype":42})
+    # Exact rcParams block from OMP-OOI's nlayer-sensitivity/energy-likelihood/
+    # scripts/analyze.py. That repository has no standalone plotting style file.
+    plt.rcParams.update({'font.size':11,'axes.spines.top':False,'axes.spines.right':False,
+                         'axes.grid':True,'grid.alpha':.18})
+    plt.rcParams.update({'savefig.dpi':220,'pdf.fonttype':42,'ps.fonttype':42})
 
 
 def terminus_panel(output="results/figures",length=30000,width=3000):
     style()
     years,positions=chronology()
-    fig,axes=plt.subplots(1,2,figsize=(7.2,2.6),layout="constrained")
+    fig,axes=plt.subplots(1,2,figsize=(8.5,3.1),layout="constrained")
     t=np.linspace(1953,2021,400)
     axes[0].plot(t,front(t),color="black",label="Smooth prescribed front")
     axes[0].plot(t,front(t,smooth=False),"--",color="0.5",label="Piecewise linear")
@@ -39,6 +41,8 @@ def comparison(fixed,advancing,output,smoke=False):
     style()
     paths=[Path(fixed),Path(advancing)]
     metadata=[json.loads((p/"metadata.json").read_text()) for p in paths]
+    if any(m["status"]!="executed" for m in metadata):
+        raise ValueError("Simulation did not complete")
     if metadata[0].get("input_kind")=="synthetic" and not smoke:
         raise ValueError("Synthetic inputs require --smoke labeling")
     if metadata[0]["input_sha256"]!=metadata[1]["input_sha256"]:
@@ -68,7 +72,7 @@ def comparison(fixed,advancing,output,smoke=False):
         for year in chronology()[0]: ax.axvline(year,color="0.7",ls="--",lw=.6)
     axes[-1].set_xlabel("Year")
     axes[1].legend(fontsize=7)
-    fig.suptitle("Synthetic solver smoke test" if smoke else "Icepack prescribed-front experiment")
+    fig.suptitle("Synthetic prescribed-front test" if smoke else "Icepack prescribed-front experiment")
     fig.savefig(out/"figure13_comparison.pdf");fig.savefig(out/"figure13_comparison.png")
     snapshots=[[np.load(p/name) for name in ["initial.npz","final.npz"]] for p in paths]
     points=snapshots[0][0]["points"]/1000
@@ -86,6 +90,6 @@ def comparison(fixed,advancing,output,smoke=False):
             im=ax.tricontourf(points[:,0],points[:,1],values,levels=np.linspace(-bound,bound,21),cmap="RdBu_r",extend="both")
             ax.set(title=title,xlabel="Downstream x (km)",ylabel="Across-flow y (km)")
         fig.colorbar(im,ax=list(axes[row]),label=label)
-    fig.suptitle("Synthetic smoke: shared initial domain" if smoke else "Dynamic change on the shared 1953 domain")
+    fig.suptitle("Synthetic test: shared initial domain" if smoke else "Dynamic change on the shared 1953 domain")
     fig.savefig(out/"spatial_comparison.pdf");fig.savefig(out/"spatial_comparison.png")
     return fig

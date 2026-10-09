@@ -1,0 +1,15 @@
+{
+  "status": "geometry probe only; not prepared model input",
+  "bedmachine": "/home/wdiens/notebooks/EKaS-Sediment-Stability/data/bedmachine/BedMachineGreenland-v6.nc",
+  "flowline_sha256": "f9986787fe84830f72c46b394f889b4ac3f5e2bbb16e3e92ecafd3e126b9e39b",
+  "assumption": "Modern flowline minus 2 km fjord extension and 1820 m approximate advance",
+  "length_1953_m": 30000,
+  "width_m": 3000,
+  "origin_easting": -20927.304247307966,
+  "origin_northing": -3149642.1125321374,
+  "downstream_azimuth_deg_from_east": -140.93406589539416,
+  "initial_nonice_fraction": 0.2594171997157072,
+  "initial_nonpositive_thickness_fraction": 0.23193556029376924,
+  "initial_missing_fraction": 0.0,
+  "initial_min_thickness_m": 0.0
+}

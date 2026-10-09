@@ -1,9 +1,9 @@
 {
   "length_1953_m": 30000,
   "width_m": 3000,
-  "nx": 120,
-  "ny": 12,
-  "dt_years": 0.05,
+  "nx": 12,
+  "ny": 4,
+  "dt_years": 0.25,
   "spinup_years": 25,
   "end_year": 2021,
   "fluidity": 10,
